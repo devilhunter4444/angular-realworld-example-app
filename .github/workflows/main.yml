@@ -52,8 +52,12 @@ jobs:
 
       - name: Publish to GitHub Packages
         run: |
+            gh auth login --with-token "${{ secrets.GH_TOKEN }}"
+            gh extension install actions/gh-actions-publish-gpr
+            gh extensions enable gh-actions-publish-gpr
+            gh gpr create --branch main
             # npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GH_TOKEN }}
-            npm publish ./dist/ --access public
+            npm publish ./dist 
         env:
             NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
 
