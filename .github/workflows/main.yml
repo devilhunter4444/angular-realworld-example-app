@@ -4,7 +4,7 @@ on:
   push:
     branches:  
       - main
-  workflow_dispatch:
+  workflow_call:
     inputs:
       node-version:
         description: Optionally pass the Node version. Default value is 12.x
@@ -17,15 +17,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - run: npm install -g @angular/cli 
-      - run: npm install 
+      - name: Set up Node ${{ inputs.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+          cache: npm
 
       - name: Get Project Version from package.json
         run: |
@@ -39,29 +39,86 @@ jobs:
           buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
           echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
 
-         
-     
       - name: Build
         run: npm run build
 
-      - name: Publish to npm
-        run: npm publish --access=public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Copy build files to dist
+        run: cp -r ./dist/new-angular/app/* ./dist/
+
+      - name: Set npm registry to GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
+
+      - name: Publish to GitHub Packages
+        run: npm publish ./dist/ --access=public
 
 
 
-  # jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     # Setup .npmrc file to publish to npm
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: '20.x'
-  #         registry-url: 'https://registry.npmjs.org'
-  #     - run: npm ci
-  #     - run: npm publish
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+
+# name: Publish package to GitHub Packages
+
+# on:
+#   push:
+#     branches:  
+#       - main
+#   workflow_dispatch:
+#     inputs:
+#       node-version:
+#         description: Optionally pass the Node version. Default value is 12.x
+#         required: false
+#         type: string
+#         default: 18.x
+
+# jobs:
+#   build-publish:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - uses: actions/checkout@v4
+#       # Setup .npmrc file to publish to npm
+#       - uses: actions/setup-node@v3
+#         with:
+#           node-version: '18.x'
+#           registry-url: 'https://registry.npmjs.org'
+
+#       - run: npm install -g @angular/cli 
+#       - run: npm install 
+
+#       - name: Get Project Version from package.json
+#         run: |
+#           projectVersion=$(cat package.json | grep -o '"version": *"[^"]*' | awk -F'"' '{ print $4 }')
+#           echo "PROJECT_VERSION=$projectVersion" >> $GITHUB_ENV
+
+#       - name: Construct the final build version
+#         run: |
+#           echo "The Project Version from package.json is ${{ env.PROJECT_VERSION }}"
+#           echo "The build number is ${{ github.run_number }}"
+#           buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
+#           echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
+
+         
+     
+#       - name: Build
+#         run: npm run build
+
+#       - name: Publish to npm
+#         run: npm publish --access=public
+#         env:
+#           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+
+
+#   # jobs:
+#   # build:
+#   #   runs-on: ubuntu-latest
+#   #   steps:
+#   #     - uses: actions/checkout@v4
+#   #     # Setup .npmrc file to publish to npm
+#   #     - uses: actions/setup-node@v3
+#   #       with:
+#   #         node-version: '20.x'
+#   #         registry-url: 'https://registry.npmjs.org'
+#   #     - run: npm ci
+#   #     - run: npm publish
+#   #       env:
+#   #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
