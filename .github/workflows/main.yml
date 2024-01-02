@@ -48,12 +48,12 @@ jobs:
       # - name: Copy build files to dist
       #   run: cp -r ./dist/new-angular/app/* ./dist/
 
-      - name: Set npm registry to GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" > .npmrc
-
       - name: Publish to GitHub Packages
-        run: npm publish 
-
+        run: |
+            npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GH_TOKEN }}
+            npm publish --access public
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 
 
