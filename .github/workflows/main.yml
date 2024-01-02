@@ -39,6 +39,9 @@ jobs:
           buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
           echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
 
+      - run: npm install -g @angular/cli 
+      - run: npm install
+      
       - name: Build
         run: npm run build
 
