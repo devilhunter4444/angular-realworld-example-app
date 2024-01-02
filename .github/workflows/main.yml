@@ -27,6 +27,8 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           cache: npm
 
+      - run: npm install -g @angular/cli 
+
       - name: Get Project Version from package.json
         run: |
           projectVersion=$(cat package.json | grep -o '"version": *"[^"]*' | awk -F'"' '{ print $4 }')
@@ -39,6 +41,8 @@ jobs:
           buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
           echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
 
+         
+     
       - name: Build
         run: npm run build
 
