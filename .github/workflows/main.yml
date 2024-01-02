@@ -1,0 +1,48 @@
+name: Publish package to GitHub Packages
+
+on:
+  # push:
+  #   branches:  
+  #     - main
+  workflow_dispatch:
+    inputs:
+      node-version:
+        description: Optionally pass the Node version. Default value is 12.x
+        required: false
+        type: string
+        default: 12.x
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node ${{ inputs.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+          cache: npm
+
+      - name: Get Project Version from package.json
+        run: |
+          projectVersion=$(cat package.json | grep -o '"version": *"[^"]*' | awk -F'"' '{ print $4 }')
+          echo "PROJECT_VERSION=$projectVersion" >> $GITHUB_ENV
+
+      - name: Construct the final build version
+        run: |
+          echo "The Project Version from package.json is ${{ env.PROJECT_VERSION }}"
+          echo "The build number is ${{ github.run_number }}"
+          buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
+          echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish to npm
+        run: npm publish ./dist/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
