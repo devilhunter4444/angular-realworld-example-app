@@ -41,6 +41,9 @@ jobs:
           buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
           echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
 
+      - name: Bump version
+        run: npm --git-tag-version=false version ${{env.BUILD_VERSION}}
+
       - run: npm install -g @angular/cli 
       - run: npm install
       
