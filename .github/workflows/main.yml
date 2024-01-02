@@ -45,11 +45,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Copy build files to dist
-        run: cp -r ./dist/new-angular/app/* ./dist/
+      # - name: Copy build files to dist
+      #   run: cp -r ./dist/new-angular/app/* ./dist/
 
       - name: Set npm registry to GitHub Packages
-        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" > .npmrc
 
       - name: Publish to GitHub Packages
         run: npm publish ./dist/ --access=public
