@@ -53,6 +53,7 @@ jobs:
 
       - name: Publish to GitHub Packages
         run: |
+            npm config set //registry.npmjs.org/:_authToken ${secrets.GH_TOKEN}
             npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GH_TOKEN }}
             npm publish --access public
         env:
