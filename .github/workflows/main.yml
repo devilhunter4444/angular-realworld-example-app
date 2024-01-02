@@ -1,16 +1,16 @@
 name: Publish package to GitHub Packages
 
 on:
-  # push:
-  #   branches:  
-  #     - main
+  push:
+    branches:  
+      - main
   workflow_dispatch:
     inputs:
       node-version:
         description: Optionally pass the Node version. Default value is 12.x
         required: false
         type: string
-        default: 12.x
+        default: 18.x
 
 jobs:
   build-publish:
