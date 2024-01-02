@@ -27,8 +27,8 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@devilhunter4444'
     
-      - name: Configure npm registry for GitHub Packages
-        run: npm config set registry https://npm.pkg.github.com/
+      # - name: Configure npm registry for GitHub Packages
+      #   run: npm config set registry https://npm.pkg.github.com/
 
       - name: Get Project Version from package.json
         run: |
