@@ -16,63 +16,46 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      # Setup .npmrc file to publish to npm
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: '18'
+          registry-url: 'https://npm.pkg.github.com'
+          # Defaults to the user or organization that owns the workflow file
+          scope: '@devilhunter4444'
+    
+      # - name: Configure npm registry for GitHub Packages
+      #   run: npm config set registry https://npm.pkg.github.com/
+
+      - name: Get Project Version from package.json
+        run: |
+          projectVersion=$(cat package.json | grep -o '"version": *"[^"]*' | awk -F'"' '{ print $4 }')
+          echo "PROJECT_VERSION=$projectVersion" >> $GITHUB_ENV
+
+      - name: Construct the final build version
+        run: |
+          echo "The Project Version from package.json is ${{ env.PROJECT_VERSION }}"
+          echo "The build number is ${{ github.run_number }}"
+          buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
+          echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
 
       - run: npm install -g @angular/cli 
       - run: npm install
       
-      # - name: Build
-      #   run: npm run build
-      # - run: npm ci
-      - run: npm publish
+      - name: Build
+        run: npm run build
+
+      # - name: Copy build files to dist
+      #   run: cp -r ./dist/new-angular/app/* ./dist/
+
+      - name: Publish to GitHub Packages
+        run: |
+            npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GH_TOKEN }}
+            npm publish 
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
-      # - name: Checkout repo
-      #   uses: actions/checkout@v3
-
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: '20.x'
-      #     registry-url: 'https://npm.pkg.github.com'
-      #     # Defaults to the user or organization that owns the workflow file
-      #     scope: '@devilhunter4444'
-    
-      # # - name: Configure npm registry for GitHub Packages
-      # #   run: npm config set registry https://npm.pkg.github.com/
-
-      # - name: Get Project Version from package.json
-      #   run: |
-      #     projectVersion=$(cat package.json | grep -o '"version": *"[^"]*' | awk -F'"' '{ print $4 }')
-      #     echo "PROJECT_VERSION=$projectVersion" >> $GITHUB_ENV
-
-      # - name: Construct the final build version
-      #   run: |
-      #     echo "The Project Version from package.json is ${{ env.PROJECT_VERSION }}"
-      #     echo "The build number is ${{ github.run_number }}"
-      #     buildVersion=${{ env.PROJECT_VERSION }}-${{ github.run_number }}
-      #     echo "BUILD_VERSION=$buildVersion" >> $GITHUB_ENV
-
-      # - run: npm install -g @angular/cli 
-      # - run: npm install
-      
-      # - name: Build
-      #   run: npm run build
-
-      # # - name: Copy build files to dist
-      # #   run: cp -r ./dist/new-angular/app/* ./dist/
-
-      # - name: Publish to GitHub Packages
-      #   run: |
-      #       npm config set //registry.npmjs.org/:_authToken ${secrets.GH_TOKEN}
-      #       npm config set //npm.pkg.github.com/:_authToken ${{ secrets.GH_TOKEN }}
-      #       npm publish --access public
-      #   env:
-      #       NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+            NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 
 
