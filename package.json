@@ -1,10 +1,11 @@
 {
-  "name": "angular-realworld",
+  "name": "@devilhunter4444/angular-realworld",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/devilhunter4444/angular-realworld-example-app.git"
+  },
   "version": "0.0.0",
   "license": "MIT",
-  "publishConfig": {
-  "@devilhunter4444:registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -12,10 +13,6 @@
     "test": "ng test",
     "lint": "ng lint --force",
     "prepare": "husky install"
-  },
-    "repository": {
-    "type": "git",
-    "url": "https://github.com/devilhunter4444/angular-realworld-example-app.git"
   },
   "engines": {
     "node": "^18.13.0 || ^20.9.0"
