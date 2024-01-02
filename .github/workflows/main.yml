@@ -28,6 +28,7 @@ jobs:
           cache: npm
 
       - run: npm install -g @angular/cli 
+      - run: npm install 
 
       - name: Get Project Version from package.json
         run: |
