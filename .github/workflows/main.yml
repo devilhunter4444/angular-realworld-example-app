@@ -49,8 +49,8 @@ jobs:
       - name: Compress Files
         run: |
             cd dist
-            # cp -r angular-conduit/** angular-conduit.${{ env.BUILD_VERSION }}
-            zip -r  angular-conduit.${{ env.BUILD_VERSION }}.zip angular-conduit/*
+            cp -r angular-conduit/* angular-conduit.${{ env.BUILD_VERSION }}
+            zip -r  angular-conduit.${{ env.BUILD_VERSION }}.zip angular-conduit.${{ env.BUILD_VERSION }}
             
       # - run : mv ${{ env.FORM-EDITOR_SOURCE_PATH}}/* ${{ env.FORM-EDITOR_BUILD_PATH}}/angular-hello-world_${{ env.BUILD_VERSION }}/angular-hello-world_${{ env.BUILD_VERSION }} 
       - name: Upload Artifacts
