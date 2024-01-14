@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_PATH: angular-conduit
-      SOURCE_PATH: dist
+      SOURCE_PATH: dist/angular-conduit
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
