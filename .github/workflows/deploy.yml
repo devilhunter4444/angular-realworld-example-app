@@ -16,20 +16,18 @@ on:
           
 
 jobs:
+  Build:
+    uses: ./.github/workflows/main.yml
+    with:
+      secrets: inherit
   deploy:
     name: Deploy to ${{ inputs.environment }}
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
+    needs: Build
     environment:
       name: ${{ inputs.environment }}
       # url: ${{ steps.step_id.outputs.url_output }}
-
     steps:
-      - run: echo "🎉 target evn ${{ inputs.environment}}"
-      - run: echo "🎉 target evn inputs.environment"
-      # - run: echo "💡 get azure webapp name from secrets ${{ secrets.AZURE_WEBAPP_SERVICE_NAME }}"
-      - run: echo "🍏 is Dev  ${{ inputs.environment }} == 'Development'"
-      - run: echo "🐧 is Prod  ${{ inputs.environment }} == 'Production'"
-
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
