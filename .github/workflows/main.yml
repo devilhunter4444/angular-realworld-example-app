@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BUILD_PATH: angular-conduit
-      SOURCE_PATH: dist
+      SOURCE_PATH: ${{ github.workspace }}/dist
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
       
       - name: Compress Files
         run: |
-              cd ${{ env.SOURCE_PATH }}
+              cd dist
               zip -r  "${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip" "${{ env.BUILD_PATH}}"/*
         
       # - run : mv ${{ env.FORM-EDITOR_SOURCE_PATH}}/* ${{ env.FORM-EDITOR_BUILD_PATH}}/angular-hello-world_${{ env.BUILD_VERSION }}/angular-hello-world_${{ env.BUILD_VERSION }} 
@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: ${{ env.SOURCE_PATH }}/"${{ env.BUILD_PATH}}.${{ env.BUILD_VERSION }}.zip"
+          path: ./dist/"${{ env.BUILD_PATH}}.${{ env.BUILD_VERSION }}.zip"
 
 
 
