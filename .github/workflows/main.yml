@@ -48,15 +48,16 @@ jobs:
       
       - name: Compress Files
         run: |
-            # cd ${{ env.SOURCE_PATH }}
-            zip -r  ${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip ${{ env.BUILD_PATH }}/*
+            cd dist
+            # cp -r angular-conduit/** angular-conduit.${{ env.BUILD_VERSION }}
+            zip -r  angular-conduit.${{ env.BUILD_VERSION }}.zip angular-conduit/*
             
       # - run : mv ${{ env.FORM-EDITOR_SOURCE_PATH}}/* ${{ env.FORM-EDITOR_BUILD_PATH}}/angular-hello-world_${{ env.BUILD_VERSION }}/angular-hello-world_${{ env.BUILD_VERSION }} 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: ${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip
+          path: dist/angular-conduit.${{ env.BUILD_VERSION }}.zip
 
 
 
