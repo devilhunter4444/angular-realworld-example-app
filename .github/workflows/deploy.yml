@@ -1,0 +1,36 @@
+name: Final-Publish
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select environment'
+        required: true
+        default: 'Development'
+        options:
+          - 'Development'
+          - 'Production'
+          
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.environment }}
+      # url: ${{ steps.step_id.outputs.url_output }}
+
+    steps:
+      - run: echo "🎉 target evn ${{ inputs.environment}}"
+      - run: echo "🎉 target evn inputs.environment"
+      # - run: echo "💡 get azure webapp name from secrets ${{ secrets.AZURE_WEBAPP_SERVICE_NAME }}"
+      - run: echo "🍏 is Dev  ${{ inputs.environment }} == 'Development'"
+      - run: echo "🐧 is Prod  ${{ inputs.environment }} == 'Production'"
+
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: Artifacts
