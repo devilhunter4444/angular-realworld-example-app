@@ -30,6 +30,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Artifacts
+          path: C:\dist
 
       # Add your deployment steps for Development environment here
 
@@ -45,5 +46,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Artifacts
+          path: C:\dist
 
           
