@@ -10,10 +10,6 @@ on:
         description: 'Select environment'
         required: true
         default: 'Development'
-        options:
-          - 'Development'
-          - 'Production'
-          
 
 jobs:
   Build:
