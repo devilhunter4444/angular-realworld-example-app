@@ -8,8 +8,8 @@ on:
     inputs:
       environment:
         description: 'Select environment'
-        required: true
-        default: 'Development'
+        # required: true
+        # default: 'Development'
 
 jobs:
   Build:
