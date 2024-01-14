@@ -36,7 +36,7 @@ jobs:
   deploy-to-prod:
     name: Deploy to Production
     runs-on: ec1
-    needs: [Build, deploy-to-dev]
+    needs: Build
     if: github.event.inputs.environment == 'Production'
     environment:
       name: Production
