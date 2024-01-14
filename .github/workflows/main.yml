@@ -1,9 +1,9 @@
 name: Publish package to GitHub Packages
 
 on:
-  push:
-    branches:  
-      - main
+  # push:
+  #   branches:  
+  #     - main
   workflow_call:
     inputs:
       node-version:
