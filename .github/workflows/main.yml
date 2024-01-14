@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: "${{ env.BUILD_PATH}}.${{ env.BUILD_VERSION }}.zip"
+          path: ${{ env.SOURCE_PATH }}/"${{ env.BUILD_PATH}}.${{ env.BUILD_VERSION }}.zip"
 
 
 
