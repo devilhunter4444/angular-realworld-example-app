@@ -10,8 +10,8 @@ jobs:
   build:  
     runs-on: ubuntu-latest
     env:
-      FORM-EDITOR_BUILD_PATH: dist/angular-conduit
-      FORM-EDITOR_SOURCE_PATH: dist/dist/angular-conduit
+      FORM-EDITOR_BUILD_PATH: angular-conduit
+      FORM-EDITOR_SOURCE_PATH: dist/angular-conduit
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
