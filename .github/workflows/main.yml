@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: dist/angular-conduit.${{ env.BUILD_VERSION }}.zip
+          path: dist/angular-conduit/angular-conduit.${{ env.BUILD_VERSION }}.zip
 
 
 
