@@ -49,14 +49,14 @@ jobs:
       - name: Compress Files
         run: |
             cd ${{ env.SOURCE_PATH }}
-            zip -r  ${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip /*
+            zip "${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip" /* -r
         
       # - run : mv ${{ env.FORM-EDITOR_SOURCE_PATH}}/* ${{ env.FORM-EDITOR_BUILD_PATH}}/angular-hello-world_${{ env.BUILD_VERSION }}/angular-hello-world_${{ env.BUILD_VERSION }} 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: Artifacts
-          path: dist/${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip
+          path: "${{ env.BUILD_PATH }}.${{ env.BUILD_VERSION }}.zip"
 
 
 
