@@ -30,7 +30,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Artifacts
-          path: C:\dist
+          path: ${{vars.SOURCEPATH}}
 
       # Add your deployment steps for Development environment here
 
@@ -46,6 +46,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Artifacts
-          path: C:\dist
+          path: ${{vars.SOURCEPATH}}
 
           
