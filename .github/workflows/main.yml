@@ -5,6 +5,7 @@ on:
   #   branches:  
   #     - main
   workflow_call:
+  workflow_dispatch:
     inputs:
       node-version:
         description: Optionally pass the Node version. Default value is 12.x
